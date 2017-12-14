@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    <br><br>
+    {% for category in categories %}
+        <a style="text-align: center; font-weight: bold" href="{% url 'articles_category' c_title=category.slug %}" class="list-group-item list-group-item-action">{{ category.title }}</a>
+    {% empty %}
+        <p>No Categories</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,7 @@
+Admin login:
+username: adilshib
+password: webprogramming
+
+test accounts:
+test@test.co -- test123test
+regtest@testuk -- testing

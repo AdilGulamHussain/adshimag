@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    <br/>
+    <div class='row js-item-container' id="in">
+        {% for arti in articles %}
+            <div class='col-lg-4 col-md-6 mb-r' id = '{{ arti.id }}'>
+                <div class='card card-cascade narrower'>
+                    <div class='view gradient-card-header blue-gradient'>
+                        <h2 class='h2-responsive'>{{ arti.title }}</h2>
+                        <div class='text-center'>
+                            <a href="{% url 'articles_category' c_title=arti.category.slug %}" class='btn btn-primary waves-effect waves-light' id="cat-{{ arti.category.id }}">{{ arti.category.title }}</a>
+                            <a href="{% url 'get_article' a_id=arti.id %}" class="btn btn-green waves-effect waves-light" id="art-{{ arti.id }}">Read More</a>
+                       </div>
+                    </div>
+                   <div class='card-body text-center'>
+                       <p class='card-text'>{{ arti.likes.count }} Likes</p>
+                       <p class="card-text">{{ arti.date_posted }}</p>
+                   </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon3">First Name</span>
+          <input type="text" class="fname form-control" id="basic-url" aria-describedby="basic-addon3" value="{{ user.first_name }}"/>
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon3">Last Name</span>
+          <input type="text" class="lname form-control" id="basic-url" aria-describedby="basic-addon3" value="{{ user.last_name }}"/>
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon3">Phone Number</span>
+          <input type="text" class="pnum form-control bfh-phone" data-format="07 ddddddddd" id="basic-url" aria-describedby="basic-addon3" value="{{ user.phone_number }}"/>
+        </div>
+
+        <button type="button" class="btn btn-success" onclick="uploadMods()">Submit</button>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function uploadMods() {
+            var fname = $(".fname");
+            var lname = $(".lname");
+            var pnum = $(".pnum");
+            var phoneFail = false;
+
+            if(pnum.val().length !== 11 || pnum.val()[0] !== "0" || pnum.val().match(/[^0-9]+/))
+                phoneFail = true;
+{#            console.log(phoneFail);#}
+            if(fname.val().length < 1 || lname.val().length < 1 || phoneFail){
+                alert("Invalid inputs! Nothing modified");
+                return;
+            }
+
+            $.ajax({
+                url : "{% url 'update_details' %}",
+                type : "PUT",
+                dataType : "json",
+                beforeSend: function (tkn) {
+                    tkn.setRequestHeader("X-CSRFToken", '{{ csrf_token }}')
+                },
+                data : JSON.stringify({"fname" : fname.val(), "lname": lname.val(), "pnum": pnum.val()}),
+                success : function (d) {
+                    alert("SUCCESS!");
+                }
+            });
+        }
+    </script>
+{% endblock %}
